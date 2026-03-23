@@ -1,12 +1,14 @@
 {
-  "name": "temp-app",
+  "name": "wedding-invitation",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview"
   },
   "dependencies": {
     "next": "16.2.1",
@@ -15,6 +17,8 @@
   },
   "devDependencies": {
     "eslint": "^9",
-    "eslint-config-next": "16.2.1"
+    "eslint-config-next": "16.2.1",
+    "wrangler": "^3.0.0",
+    "@opennextjs/cloudflare": "^1.0.0"
   }
 }
