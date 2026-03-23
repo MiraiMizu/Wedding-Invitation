@@ -1,0 +1,165 @@
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  background-color: var(--bg-color);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Simulate floral vector graphics with pseudo-elements */
+.floralTop {
+  position: absolute;
+  top: -100px;
+  left: -100px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(212,175,55,0.1) 0%, transparent 60%);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.floralBottom {
+  position: absolute;
+  bottom: -150px;
+  right: -100px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255,182,193,0.1) 0%, transparent 60%);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.card {
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-color);
+  padding: 60px 40px;
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  animation: slideUp 1s ease forwards;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.inviteText {
+  font-family: 'Inter', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  font-size: 0.85rem;
+  color: var(--primary);
+  margin-bottom: 20px;
+}
+
+.names {
+  font-family: 'Playfair Display', serif;
+  font-size: 4rem;
+  font-weight: 400;
+  color: var(--text-main);
+  line-height: 1.2;
+  margin-bottom: 30px;
+}
+
+.ampersand {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 3rem;
+  color: var(--primary);
+  display: inline-block;
+  margin: 0 10px;
+}
+
+.detailsDivider {
+  width: 60px;
+  height: 2px;
+  background: var(--primary);
+  margin: 0 auto 40px;
+  opacity: 0.5;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.detailItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon {
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+}
+
+.date {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  color: var(--text-main);
+}
+
+.time {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+}
+
+.location {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+.messageBox {
+  background: rgba(212, 175, 55, 0.05);
+  border-left: 3px solid var(--primary);
+  padding: 20px;
+  margin-bottom: 40px;
+  font-style: italic;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.footer {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  color: var(--text-main);
+  border-top: 1px solid rgba(0,0,0,0.05);
+  padding-top: 30px;
+}
+
+@media (max-width: 600px) {
+  .card {
+    padding: 40px 20px;
+  }
+  
+  .names {
+    font-size: 3rem;
+  }
+  
+  .ampersand {
+    font-size: 2rem;
+  }
+  
+  .date {
+    font-size: 1.5rem;
+  }
+}

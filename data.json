@@ -1,0 +1,29 @@
+{
+  "ay-ve-veli": {
+    "brideName": "Ay",
+    "groomName": "Veli",
+    "date": "",
+    "time": "18:30",
+    "location": "",
+    "message": "Bu mutlu g",
+    "slug": "ay-ve-veli"
+  },
+  "-ve-": {
+    "brideName": "",
+    "groomName": "",
+    "date": "",
+    "time": "",
+    "location": "",
+    "message": "",
+    "slug": "-ve-"
+  },
+  "ayse-ve-veli": {
+    "brideName": "Ayse",
+    "groomName": "Veli",
+    "date": "2025-08-12",
+    "time": "21:00",
+    "location": "ankara yenimhalle inonu mahallesi doktor veli caddesi ",
+    "message": "hepinizi bekleriz",
+    "slug": "ayse-ve-veli"
+  }
+}
