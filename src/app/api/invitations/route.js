@@ -1,8 +1,18 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
 
-const dataFilePath = path.join(process.cwd(), 'data.json');
+// Helper to get the KV namespace from the Cloudflare environment
+function getKV() {
+  // In Cloudflare Workers, process.env gives us access to KV namespaces 
+  // The INVITATIONS binding is available via globalThis
+  // @ts-ignore
+  return typeof globalThis !== 'undefined' && globalThis.process?.env?.INVITATIONS
+    // @ts-ignore
+    ? globalThis.process.env.INVITATIONS
+    : null;
+}
+
+// Fallback in-memory store for local development
+const memoryStore = new Map();
 
 export async function POST(request) {
   try {
@@ -13,22 +23,16 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Slug is required' }, { status: 400 });
     }
 
-    // Read existing data
-    let existingData = {};
-    try {
-      const fileData = await fs.readFile(dataFilePath, 'utf-8');
-      existingData = JSON.parse(fileData);
-    } catch (e) {
-      // File might not exist or be empty
-      existingData = {};
+    const value = JSON.stringify(body);
+
+    // Try Cloudflare KV first
+    const kv = getKV();
+    if (kv) {
+      await kv.put(slug, value);
+    } else {
+      // Fallback: In-memory store (local dev)
+      memoryStore.set(slug, body);
     }
-
-    // Check if slug already exists to prevent overwrite?
-    // In a real app we would warn, but here we just append a random number if needed or overwrite.
-    // For simplicity, let's just save/overwrite.
-    existingData[slug] = body;
-
-    await fs.writeFile(dataFilePath, JSON.stringify(existingData, null, 2));
 
     return NextResponse.json({ success: true, slug });
   } catch (error) {
@@ -46,10 +50,15 @@ export async function GET(request) {
   }
 
   try {
-    const fileData = await fs.readFile(dataFilePath, 'utf-8');
-    const existingData = JSON.parse(fileData);
-
-    const data = existingData[slug];
+    const kv = getKV();
+    let data;
+    
+    if (kv) {
+      const raw = await kv.get(slug);
+      data = raw ? JSON.parse(raw) : null;
+    } else {
+      data = memoryStore.get(slug) || null;
+    }
 
     if (data) {
       return NextResponse.json({ data });

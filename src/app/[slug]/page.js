@@ -1,11 +1,33 @@
 import { notFound } from 'next/navigation';
-import fs from 'fs/promises';
-import path from 'path';
 import styles from './page.module.css';
 
+// Custom in-memory store that also has a JSON fallback
+// This function reads the invitation data from an environment-aware source
 async function getInvitationData(slug) {
-  const dataFilePath = path.join(process.cwd(), 'data.json');
+  // Try Cloudflare KV first (available in production)
   try {
+    // @ts-ignore
+    const kv = typeof process !== 'undefined' && process.env?.INVITATIONS
+      // @ts-ignore
+      ? process.env.INVITATIONS
+      : null;
+
+    if (kv) {
+      const raw = await kv.get(slug);
+      if (raw) {
+        return JSON.parse(raw);
+      }
+      return null;
+    }
+  } catch (e) {
+    // KV not available, fall through to file system
+  }
+
+  // Fallback: read from data.json (local dev only)
+  try {
+    const { default: fs } = await import('fs/promises');
+    const { default: path } = await import('path');
+    const dataFilePath = path.join(process.cwd(), 'data.json');
     const fileData = await fs.readFile(dataFilePath, 'utf-8');
     const allData = JSON.parse(fileData);
     return allData[slug] || null;
